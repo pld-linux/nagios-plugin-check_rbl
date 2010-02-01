@@ -7,13 +7,14 @@
 Summary:	check_rbl is a Nagios plugin to check if an SMTP server is blacklisted
 Name:		nagios-plugin-%{plugin}
 Version:	1.1.0
-Release:	0.4
+Release:	0.7
 License:	GPL
 Group:		Networking
-Source0:	http://www.id.ethz.ch/people/allid_list/corti/%{plugin}-%{version}.tar.gz
+Source0:	https://trac.id.ethz.ch/projects/nagios_plugins/downloads/%{plugin}-%{version}.tar.gz
 # Source0-md5:	724cd353d48df3f4e9a98743146cfd0f
 Source1:	%{plugin}.cfg
 Source2:	%{plugin}.ini
+Patch0:		verbose-reporting.patch
 URL:		https://trac.id.ethz.ch/projects/nagios_plugins/wiki/check_rbl
 BuildRequires:	sed >= 4.0
 Requires:	nagios-common
@@ -37,6 +38,7 @@ check_rbl is a Nagios plugin to check if an SMTP server is blacklisted
 
 %prep
 %setup -q -n %{plugin}-%{version}
+%patch0 -p1
 
 %{__sed} -i -e '
 # no need for debug dependency
