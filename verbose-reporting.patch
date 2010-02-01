@@ -1,11 +1,52 @@
---- check_rbl-1.1.0/check_rbl~	2010-02-01 18:27:44.918315737 +0200
+--- check_rbl-1.1.0/check_rbl	2010-02-01 18:28:07.075134119 +0200
 +++ check_rbl-1.1.0/check_rbl	2010-02-01 18:28:07.075134119 +0200
-@@ -272,7 +275,7 @@
+@@ -144,10 +144,13 @@
+ 
+     if ( lookup($lookup_ip) ) {
+ 
++		verbose "LISTED: $lookup_ip\n";
+         return $lookup_ip;
+ 
+     }
+ 
++	verbose "OK: $lookup_ip\n";
++
+     return 0;
+ 
+ }
+@@ -238,6 +241,7 @@
+     $PLUGIN->nagios_exit( UNKNOWN, 'Cannot resolve ' . $OPTIONS->host );
+ }
+ 
++verbose "Using " . $OPTIONS->timeout . " as global script timeout\n";
+ alarm $OPTIONS->timeout;
+ 
+ ################
+@@ -250,13 +254,16 @@
+ 
+ ################################################################################
+ 
+-verbose 'Checking ' . $OPTIONS->host . " ($IP)\n";
++my @servers = @{$OPTIONS->server};
++my $nservers = scalar @servers;
++
++verbose 'Checking ' . $OPTIONS->host . " ($IP) on $nservers server(s)\n";
+ 
+ my $iter = iterate(
+     { workers => $OPTIONS->workers },
+     \&check_server,
+     sub {
+-        while ( my $server = pop @{ $OPTIONS->server } ) {
++        while ( my $server = pop @servers ) {
+             return $server;
+         }
+         return;
+@@ -272,7 +279,7 @@
  my $total = scalar @BLACKLISTED;
  
  my $status =
 -  "BLACKLISTED on $total " . ( ( $total == 1 ) ? 'server' : 'servers' );
-+  $OPTIONS->host. " BLACKLISTED on $total " . ( ( $total == 1 ) ? 'server' : 'servers' );
++  $OPTIONS->host. " BLACKLISTED on $total " . ( ( $total == 1 ) ? 'server' : 'servers' ) . " of $nservers";
  
  if ( $total > 0 ) {
      $status .= " (@BLACKLISTED)";
