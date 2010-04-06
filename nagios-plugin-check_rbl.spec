@@ -43,7 +43,6 @@ Nagios plugin to check if an server is blacklisted in RBL servers.
 %prep
 %setup -q -n %{plugin}-%{version}
 %patch0 -p1
-%patch1 -p1
 
 # https://trac.id.ethz.ch/projects/nagios_plugins/ticket/68
 %{__sed} -i -e '
@@ -53,6 +52,8 @@ Nagios plugin to check if an server is blacklisted in RBL servers.
 # not needed, so kill to avoid extra dep
 /use version;/d
 ' %{plugin}
+
+%patch1 -p1
 
 %build
 %{__perl} Makefile.PL \
