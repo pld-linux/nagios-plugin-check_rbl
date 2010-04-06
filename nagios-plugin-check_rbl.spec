@@ -4,7 +4,7 @@
 
 %include	/usr/lib/rpm/macros.perl
 %define		plugin	check_rbl
-Summary:	check_rbl is a Nagios plugin to check if an SMTP server is blacklisted
+Summary:	Nagios plugin to check if an server is blacklisted in RBL servers
 Name:		nagios-plugin-%{plugin}
 Version:	1.1.0
 Release:	3
@@ -13,7 +13,9 @@ Group:		Networking
 Source0:	https://trac.id.ethz.ch/projects/nagios_plugins/downloads/%{plugin}-%{version}.tar.gz
 # Source0-md5:	724cd353d48df3f4e9a98743146cfd0f
 Source1:	%{plugin}.cfg
+# https://trac.id.ethz.ch/projects/nagios_plugins/ticket/67
 Source2:	%{plugin}.ini
+# https://trac.id.ethz.ch/projects/nagios_plugins/ticket/66
 Patch0:		verbose-reporting.patch
 URL:		https://trac.id.ethz.ch/projects/nagios_plugins/wiki/check_rbl
 BuildRequires:	perl-ExtUtils-MakeMaker >= 6.42
@@ -35,12 +37,13 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		plugindir	%{_prefix}/lib/nagios/plugins
 
 %description
-check_rbl is a Nagios plugin to check if an SMTP server is blacklisted
+Nagios plugin to check if an server is blacklisted in RBL servers.
 
 %prep
 %setup -q -n %{plugin}-%{version}
 %patch0 -p1
 
+# https://trac.id.ethz.ch/projects/nagios_plugins/ticket/68
 %{__sed} -i -e '
 # no need for debug dependency
 /use Data::Dumper;/d
