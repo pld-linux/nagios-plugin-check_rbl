@@ -4,12 +4,12 @@
  
      if ( lookup($lookup_ip) ) {
  
-+		verbose "LISTED: $lookup_ip\n";
++        verbose "LISTED: $lookup_ip\n";
          return $lookup_ip;
  
      }
  
-+	verbose "OK: $lookup_ip\n";
++    verbose "OK: $lookup_ip\n";
 +
      return 0;
  
