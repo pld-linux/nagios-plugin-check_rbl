@@ -1,5 +1,5 @@
 --- check_rbl-1.2.0/check_rbl	2010-04-06 20:40:42.858468257 +0300
-+++ check_rbl-1.2.0/check_rbl	2010-04-06 20:40:42.858468257 +0300
++++ check_rbl-1.1.0/check_rbl	2010-04-06 21:00:56.970381943 +0300
 @@ -4,6 +4,7 @@
  # See  the INSTALL file for installation instructions
  #
@@ -74,7 +74,7 @@
  # Usage     : verbose("some message string", $optional_verbosity_level);
  # Purpose   : write a message if the verbosity level is high enough
  # Returns   : n/a
-@@ -123,36 +89,119 @@
+@@ -123,36 +89,116 @@
  }
  
  ##############################################################################
@@ -131,22 +131,20 @@
 +	my @addrs = @$data;
 +	my %addrs;
 +	while (1) {
-+		my ($name, $sock);
-+
 +		#----------------------------------------------------------------------
 +		# Read names until we've filled our quota of outstanding requests.
 +		#----------------------------------------------------------------------
 +
 +		while (!$eof && $sel->count < $opt_n) {
 +			print "DEBUG: reading..." if $opt_d;
-+			$name = shift @addrs;
++			my $name = shift @addrs;
 +			unless (defined $name) {
 +				print "EOF.\n" if $opt_d;
 +				$eof = 1;
 +				last;
 +			}
 +			print "NAME: $name\n" if $opt_d;
-+			$sock = $res->bgsend($name);
++			my $sock = $res->bgsend($name);
 +
 +			# we store in a hash the query we made, as parsing it back from
 +			# response gives different ip for ips with multiple hosts
@@ -172,7 +170,7 @@
 +
 +			print "DEBUG: replies received: ", scalar @ready, "\n" if $opt_d;
 +
-+			foreach $sock (@ready) {
++			foreach my $sock (@ready) {
 +				print "DEBUG: handling a reply\n" if $opt_d;
 +				my $addr = $addrs{$sock};
 +				delete $addrs{$sock};
@@ -201,8 +199,7 @@
 +
 +		if ($timed_out) {
 +			print "DEBUG: timeout: clearing the outstanding pool.\n" if $opt_d;
-+			my $sock;
-+			foreach $sock ($sel->handles) {
++			foreach my $sock ($sel->handles) {
 +				my $addr = $addrs{$sock};
 +				delete $addrs{$sock};
 +				$sel->remove($sock);
@@ -222,7 +219,7 @@
  }
  
  ##############################################################################
-@@ -232,9 +281,16 @@
+@@ -232,9 +278,16 @@
          'critical has to be greater or equal warning' );
  }
  
@@ -241,7 +238,7 @@
  }
  
  if ( !$IP ) {
-@@ -259,28 +315,37 @@
+@@ -259,28 +312,37 @@
  
  verbose 'Checking ' . $OPTIONS->host . " ($IP) on $nservers server(s)\n";
  
