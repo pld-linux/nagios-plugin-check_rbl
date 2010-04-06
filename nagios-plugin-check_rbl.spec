@@ -17,6 +17,7 @@ Source1:	%{plugin}.cfg
 Source2:	%{plugin}.ini
 # https://trac.id.ethz.ch/projects/nagios_plugins/ticket/66
 Patch0:		verbose-reporting.patch
+Patch1:		mdns.patch
 URL:		https://trac.id.ethz.ch/projects/nagios_plugins/wiki/check_rbl
 BuildRequires:	perl-ExtUtils-MakeMaker >= 6.42
 BuildRequires:	rpm-perlprov >= 4.1-13
@@ -42,6 +43,7 @@ Nagios plugin to check if an server is blacklisted in RBL servers.
 %prep
 %setup -q -n %{plugin}-%{version}
 %patch0 -p1
+%patch1 -p1
 
 # https://trac.id.ethz.ch/projects/nagios_plugins/ticket/68
 %{__sed} -i -e '
