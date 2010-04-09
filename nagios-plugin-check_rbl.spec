@@ -6,19 +6,14 @@
 %define		plugin	check_rbl
 Summary:	Nagios plugin to check if an server is blacklisted in RBL servers
 Name:		nagios-plugin-%{plugin}
-Version:	1.1.0
-Release:	5
+Version:	1.2.0
+Release:	1
 License:	GPL
 Group:		Networking
 Source0:	https://trac.id.ethz.ch/projects/nagios_plugins/downloads/%{plugin}-%{version}.tar.gz
-# Source0-md5:	724cd353d48df3f4e9a98743146cfd0f
+# Source0-md5:	630902d9d7b644a0ab6537030ec40f12
 Source1:	%{plugin}.cfg
-# https://trac.id.ethz.ch/projects/nagios_plugins/ticket/67
 Source2:	%{plugin}.ini
-# https://trac.id.ethz.ch/projects/nagios_plugins/ticket/66
-Patch0:		verbose-reporting.patch
-# https://trac.id.ethz.ch/projects/nagios_plugins/ticket/69
-Patch1:		mdns.patch
 URL:		https://trac.id.ethz.ch/projects/nagios_plugins/wiki/check_rbl
 BuildRequires:	perl-ExtUtils-MakeMaker >= 6.42
 BuildRequires:	rpm-perlprov >= 4.1-13
@@ -43,18 +38,12 @@ Nagios plugin to check if an server is blacklisted in RBL servers.
 
 %prep
 %setup -q -n %{plugin}-%{version}
-%patch0 -p1
 
 # https://trac.id.ethz.ch/projects/nagios_plugins/ticket/68
 %{__sed} -i -e '
-# no need for debug dependency
-/use Data::Dumper;/d
-
 # not needed, so kill to avoid extra dep
 /use version;/d
 ' %{plugin}
-
-%patch1 -p1
 
 %build
 %{__perl} Makefile.PL \
@@ -86,4 +75,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(640,root,nagios) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{plugin}.cfg
 %attr(640,root,nagios) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{plugin}.ini
 %attr(755,root,root) %{plugindir}/%{plugin}
-%{_mandir}/man3/*.3pm*
+%{_mandir}/man1/check_rbl.1*
