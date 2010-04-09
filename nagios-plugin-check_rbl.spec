@@ -17,6 +17,7 @@ Source1:	%{plugin}.cfg
 Source2:	%{plugin}.ini
 # https://trac.id.ethz.ch/projects/nagios_plugins/ticket/66
 Patch0:		verbose-reporting.patch
+# https://trac.id.ethz.ch/projects/nagios_plugins/ticket/69
 Patch1:		mdns.patch
 URL:		https://trac.id.ethz.ch/projects/nagios_plugins/wiki/check_rbl
 BuildRequires:	perl-ExtUtils-MakeMaker >= 6.42
