@@ -19,16 +19,13 @@ BuildRequires:	perl-ExtUtils-MakeMaker >= 6.42
 BuildRequires:	rpm-perlprov >= 4.1-13
 BuildRequires:	sed >= 4.0
 %if %{with tests}
-BuildRequires:	perl-Nagios-Plugin
+BuildRequires:	perl-Nagios-Plugin >= 0.31
 BuildRequires:	perl-Net-DNS
-BuildRequires:	perl-Parallel-Iterator
 BuildRequires:	perl-Readonly
 %endif
 Requires:	nagios-common
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%define		_noautoreq	'perl(utils)'
 
 %define		_sysconfdir	/etc/nagios/plugins
 %define		plugindir	%{_prefix}/lib/nagios/plugins
@@ -38,11 +35,6 @@ Nagios plugin to check if an server is blacklisted in RBL servers.
 
 %prep
 %setup -q -n %{plugin}-%{version}
-
-# https://trac.id.ethz.ch/projects/nagios_plugins/ticket/68
-%{__sed} -i -e '
-s/use version;\s*//
-' %{plugin}
 
 %build
 %{__perl} Makefile.PL \
@@ -58,12 +50,12 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT%{_sysconfdir}
-cp -a %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/%{plugin}.cfg
-cp -a %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/%{plugin}.ini
+cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/%{plugin}.cfg
+cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/%{plugin}.ini
 
-rm -f $RPM_BUILD_ROOT%{perl_archlib}/perllocal.pod
-rm -f $RPM_BUILD_ROOT%{perl_vendorarch}/auto/check_rbl/.packlist
-rm -f $RPM_BUILD_ROOT%{perl_vendorlib}/check_rbl.pod
+%{__rm} $RPM_BUILD_ROOT%{perl_archlib}/perllocal.pod
+%{__rm} $RPM_BUILD_ROOT%{perl_vendorarch}/auto/check_rbl/.packlist
+%{__rm} $RPM_BUILD_ROOT%{perl_vendorlib}/check_rbl.pod
 
 %clean
 rm -rf $RPM_BUILD_ROOT
