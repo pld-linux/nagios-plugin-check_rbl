@@ -6,12 +6,12 @@
 %define		plugin	check_rbl
 Summary:	Nagios plugin to check if an server is blacklisted in RBL servers
 Name:		nagios-plugin-%{plugin}
-Version:	1.2.2
+Version:	1.3.0
 Release:	1
 License:	GPL v3
 Group:		Networking
 Source0:	https://trac.id.ethz.ch/projects/nagios_plugins/downloads/%{plugin}-%{version}.tar.gz
-# Source0-md5:	d8d7003a310c165c4238a549b56cc388
+# Source0-md5:	ad5fd6225aa066252a7e15f0d6450502
 Source1:	%{plugin}.cfg
 Source2:	%{plugin}.ini
 URL:		https://trac.id.ethz.ch/projects/nagios_plugins/wiki/check_rbl
