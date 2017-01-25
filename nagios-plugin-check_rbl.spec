@@ -6,19 +6,21 @@
 %include	/usr/lib/rpm/macros.perl
 Summary:	Nagios plugin to check if an server is blacklisted in RBL servers
 Name:		nagios-plugin-%{plugin}
-Version:	1.3.6
+Version:	1.3.8
 Release:	1
 License:	GPL v3
 Group:		Networking
-Source0:	https://trac.id.ethz.ch/projects/nagios_plugins/downloads/%{plugin}-%{version}.tar.gz
-# Source0-md5:	5e570b46372fcb1028cba1a876b68011
+Source0:	https://github.com/matteocorti/check_rbl/releases/download/v%{version}/%{plugin}-%{version}.tar.gz
+# Source0-md5:	267eac8db2f27aeb1473025d67855dd0
 Source1:	%{plugin}.cfg
 Source2:	%{plugin}.ini
-URL:		https://trac.id.ethz.ch/projects/nagios_plugins/wiki/check_rbl
+URL:		https://github.com/matteocorti/check_rbl/wiki
 BuildRequires:	perl-ExtUtils-MakeMaker >= 6.42
 BuildRequires:	rpm-perlprov >= 4.1-13
 BuildRequires:	sed >= 4.0
 %if %{with tests}
+BuildRequires:	perl-Data-Validate-Domain
+BuildRequires:	perl-Data-Validate-IP
 BuildRequires:	perl-Nagios-Plugin >= 0.31
 BuildRequires:	perl-Net-DNS
 BuildRequires:	perl-Readonly
