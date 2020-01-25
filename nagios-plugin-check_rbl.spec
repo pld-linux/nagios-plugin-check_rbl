@@ -3,7 +3,6 @@
 %bcond_without	tests	# do not perform "make test"
 
 %define		plugin	check_rbl
-%include	/usr/lib/rpm/macros.perl
 Summary:	Nagios plugin to check if an server is blacklisted in RBL servers
 Name:		nagios-plugin-%{plugin}
 Version:	1.3.8
