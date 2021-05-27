@@ -6,13 +6,12 @@
 Summary:	Nagios plugin to check if an server is blacklisted in RBL servers
 Name:		nagios-plugin-%{plugin}
 Version:	1.5.7
-Release:	1
+Release:	2
 License:	GPL v3
 Group:		Networking
 Source0:	https://github.com/matteocorti/check_rbl/releases/download/v%{version}/%{plugin}-%{version}.tar.gz
 # Source0-md5:	601b72ef3c63e5343a4eef84ed174590
 Source1:	%{plugin}.cfg
-Source2:	%{plugin}.ini
 URL:		https://github.com/matteocorti/check_rbl/wiki
 BuildRequires:	perl-ExtUtils-MakeMaker >= 6.42
 BuildRequires:	rpm-perlprov >= 4.1-13
@@ -52,7 +51,8 @@ rm -rf $RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT%{_sysconfdir}
 cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/%{plugin}.cfg
-cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/%{plugin}.ini
+
+install check_rbl.ini $RPM_BUILD_ROOT%{_sysconfdir}/%{plugin}.ini
 
 %{__rm} $RPM_BUILD_ROOT%{perl_archlib}/perllocal.pod
 %{__rm} $RPM_BUILD_ROOT%{perl_vendorarch}/auto/check_rbl/.packlist
